@@ -4,11 +4,18 @@ import threading
 from Assignment import assignment
 from Operations import generate_id
 
-problems_list = ["Headache", "Fever", "Dialysis", "Bloodwork", "Fracture"]
+problems_dict = {
+    "Headache": 300,
+    "Fever": 200,
+    "Dialysis": 400,
+    "Bloodwork": 100,
+    "Fracture": 350,
+}
 gender_list = ["Male", "Female"]
 
 
 # Adding Persons - Doctors/Patients from user
+# Cannot be written inside Person(ABC)
 def create_person(option, doctors_list, patients_list):
     if option == 1:
         doctor = Doctor("Dr." + input("Enter the name: "))
@@ -41,13 +48,13 @@ class Patient(Person):
             self.id = generate_id(self.name, self.age)
         else:
             self.id = id
-        self.problem = choice(problems_list)
-        self.bills = []
+        self.problem = choice(list(problems_dict))  # Current problem
         self.problems_list = []
         self.problems_list.insert(0, self.problem)
+        self.duration = randint(5, 10)  # Current duration
         self.time_per_visits = []  # Durations
-        self.duration = randint(5, 10)
         self.time_per_visits.insert(0, self.duration)
+        self.bills = []
         self.visited_by_doc = []
 
     def __str__(self):
@@ -62,7 +69,7 @@ class Patient(Person):
             "id": self.id,
             "age": self.age,
             "gender": self.gender,
-            "problem": self.problems,
+            "problem": self.problems_list,
             "time_per_visits": self.time_per_visits,
             "bills": self.bills,
             "visited_by_doc": self.visited_by_doc,

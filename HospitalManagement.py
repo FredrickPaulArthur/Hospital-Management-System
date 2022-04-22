@@ -13,21 +13,19 @@ while True:
     print("4> Exit")
     option = int(input())
 
+    update_history(patients_list)
     # Adding People
     if option == 1 or option == 2:
         create_person(option, doctors_list, patients_list)
-
     # Bill Calculation
     elif option == 3:
-        update_history(patients_list)
         calculate_bill()
-
     # Exiting
-    if option == 4:  # To exit and to update history for the day
+    elif option == 4:  # To exit and to update history for the day
         print("Exiting, waiting to close.....")
-        update_history(patients_list)
         break
     print()
+    update_history(patients_list)  # For what, threads to finish???
 
 
 # Able to use as a list - YES

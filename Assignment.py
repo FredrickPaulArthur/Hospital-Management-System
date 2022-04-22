@@ -1,5 +1,13 @@
 import time
 
+problems_dict = {
+    "Headache": 300,
+    "Fever": 200,
+    "Dialysis": 400,
+    "Bloodwork": 100,
+    "Fracture": 350,
+}
+
 # Must return None if no doctors are available after one iteration
 def available_doc(doctors):  # TODO: make it Asynchronous
     while True:
@@ -22,7 +30,8 @@ def assignment(patient, doctors_list):
                 )
             )
         time.sleep(patient.duration)
-        # patient.bills.insert(0, )
+        patient.bills.insert(0, problems_dict[patient.problem])
+        patient.visited_by_doc.insert(0, avl_doc.name)
         # Update details like - bills, visited_by_doc(DocName)
         with open("results.txt", "a") as f:
             f.write(
