@@ -1,7 +1,7 @@
 import time
 
-
-def availableDoc(doctors):  # TODO: Edit with Asynchronous function
+# Must return None if no doctors are available after one iteration
+def available_doc(doctors):  # TODO: make it Asynchronous
     while True:
         for doc in doctors:
             if doc.isfree:
@@ -11,23 +11,19 @@ def availableDoc(doctors):  # TODO: Edit with Asynchronous function
 
 
 def assignment(patient, doctors_list):
-    avl_doc = availableDoc(doctors_list)  # returns None if no docs available?
+    avl_doc = available_doc(doctors_list)  # returns None if no docs available?
 
-    if (
-        avl_doc is not None
-    ):  # Must return None if no doctors are available after one iteration
+    # Waits until Doctor is available
+    if avl_doc is not None:
         with open("results.txt", "a") as f:
             f.write(
-                "\n{} on-duty with {} for {}mins.....".format(
+                "\n{} on-duty with {} for {}mins.....\n".format(
                     avl_doc.name, patient.name, patient.duration
                 )
             )
-        # print(
-        #     "\n{} on-duty with {} for {}mins.....".format(
-        #         avl_doc.name, patient.name, patient.duration
-        #     )
-        # )
         time.sleep(patient.duration)
+        # patient.bills.insert(0, )
+        # Update details like - bills, visited_by_doc(DocName)
         with open("results.txt", "a") as f:
             f.write(
                 "\nPatient {} exited, {} is free\n".format(patient.name, avl_doc.name)
