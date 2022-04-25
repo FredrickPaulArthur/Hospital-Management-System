@@ -1,4 +1,6 @@
+import threading
 import time
+import threading
 
 problems_dict = {
     "Headache": 300,
@@ -6,6 +8,7 @@ problems_dict = {
     "Dialysis": 400,
     "Bloodwork": 100,
     "Fracture": 350,
+    "Eye-checkup": 450,
 }
 
 # Must return None if no doctors are available after one iteration
@@ -15,11 +18,13 @@ def available_doc(doctors):  # TODO: make it Asynchronous
             if doc.isfree:
                 doc.isfree = False
                 return doc  # Iterates with 1sec intervals until one Doctor is free
-        time.sleep(1)
+        threading.Event().wait(1)
+        # time.sleep(1)
 
 
 def assignment(patient, doctors_list):
-    avl_doc = available_doc(doctors_list)  # returns None if no docs available?
+    avl_doc = available_doc(doctors_list)
+    # returns None if no docs available?
 
     # Waits until Doctor is available
     if avl_doc is not None:

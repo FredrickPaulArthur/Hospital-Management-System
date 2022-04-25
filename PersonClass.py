@@ -10,70 +10,39 @@ problems_dict = {
     "Dialysis": 400,
     "Bloodwork": 100,
     "Fracture": 350,
+    "Eye-checkup": 450,
 }
-gender_list = ["Male", "Female"]
-
-
-# Adding Persons - Doctors/Patients from user
-# Cannot be written inside Person(ABC)
-def create_person(option, doctors_list, patients_list):
-    if option == 1:
-        doctor = Doctor("Dr." + input("Enter the name: "))
-        doctors_list.append(doctor)
-
-    elif option == 2:
-        patient = Patient(
-            input("Enter patient's id: "),
-            input("Enter patient's name: "),
-        )
-        patients_list.append(patient.details())
-
-        thread = threading.Thread(
-            target=assignment, args=(patient, doctors_list)
-        )  # Should increment bills and visits
-        thread.start()
 
 
 class Person(ABC):
     def __init__(self, name):
         self.name = name
         self.age = randint(30, 60)
-        self.gender = choice(gender_list)
+        self.gender = choice(["Male", "Female"])
 
+    def create_person(option, doctors_list, patients_list):
+        if option == 1:
+            doctor = Doctor("Dr." + input("Enter the name: "))
+            doctors_list.append(doctor)
+        elif option == 2:  # also assign to a Doctor
+            patient = Patient(
+                input("Enter patient's id: "),
+                input("Enter patient's name: "),
+                patients_list,
+            )
+            # Invalid Patient ID
+            # print(patient is not None)
+            # assert patient is not None, "Invalid Patient Id!"
 
-class Patient(Person):
-    def __init__(self, id, name):
-        super().__init__(name)
-        if id == "none":
-            self.id = generate_id(self.name, self.age)
-        else:
-            self.id = id
-        self.problem = choice(list(problems_dict))  # Current problem
-        self.problems_list = []
-        self.problems_list.insert(0, self.problem)
-        self.duration = randint(5, 10)  # Current duration
-        self.time_per_visits = []  # Durations
-        self.time_per_visits.insert(0, self.duration)
-        self.bills = []
-        self.visited_by_doc = []
+            for p in patients_list:  # For already visited Patient
+                if p["id"] == patient.id:
+                    break
+            else:
+                patients_list.append(patient.details())
 
-    def __str__(self):
-        print("Patient Details")
-        return "ID: {}\t Name: {}\t Gender: {}\t Age: {}\t\n".format(
-            self.id, self.name, self.gender, self.age
-        )
-
-    def details(self):
-        return {
-            "name": self.name,
-            "id": self.id,
-            "age": self.age,
-            "gender": self.gender,
-            "problem": self.problems_list,
-            "time_per_visits": self.time_per_visits,
-            "bills": self.bills,
-            "visited_by_doc": self.visited_by_doc,
-        }
+            # Should increment bills and visits
+            thread = threading.Thread(target=assignment, args=(patient, doctors_list))
+            thread.start()
 
 
 class Doctor(Person):
@@ -87,3 +56,59 @@ class Doctor(Person):
         return "Name: {}\t Gender: {}\t Age: {}\t Fee: {}\t\n".format(
             self.name, self.gender, self.age, self.fee
         )
+
+
+class Patient(Person):
+    def __init__(self, id, name, patients_list):
+        # First time visit
+        if id == "none":
+            super().__init__(name)
+            self.id = generate_id(self.name, self.age)
+            self.problems_list = []
+            self.time_per_visits = []  # Durations
+            self.bills = []
+            self.visited_by_doc = []
+            self.duration = randint(5, 10)
+            self.problem = choice(list(problems_dict))
+            self.problems_list.insert(0, self.problem)
+            self.time_per_visits.insert(0, self.duration)
+
+        else:
+            self.id = id
+            for patient in patients_list:
+                # To select the already existing patient and instantiate it append to it
+                if patient.id == id:
+                    self.age = patient.age
+                    self.name = patient.name
+                    self.gender = patient.gender
+                    self.duration = randint(5, 10)  # patient.duration
+                    self.time_per_visits = patient.time_per_visits
+                    self.bills = patient.bills
+                    self.visited_by_doc = patient.visited_by_doc
+                    self.problem = choice(list(problems_dict))  # Current problem
+                    patient.duration = randint(8, 13)  # Current duration
+                    patient.time_per_visits.insert(0, patient.duration)
+                    patient.problems_list.insert(0, self.problem)
+                    break
+            else:
+                print("Invalid Patient ID")
+                return None
+
+    def __str__(self):
+        print("Patient Details")
+        return "ID: {}\t Name: {}\t Gender: {}\t Age: {}\t\n".format(
+            self.id, self.name, self.gender, self.age
+        )
+
+    def details(self):
+        return {
+            "name": self.name,
+            "id": self.id,
+            "age": self.age,
+            "gender": self.gender,
+            "duration": self.duration,
+            "time_per_visits": self.time_per_visits,
+            "problems_list": self.problems_list,
+            "bills": self.bills,
+            "visited_by_doc": self.visited_by_doc,
+        }

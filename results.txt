@@ -1,0 +1,28 @@
+
+Dr.A on-duty with p1 for 10mins.....
+
+Dr.B on-duty with p2 for 8mins.....
+
+Dr.C on-duty with p3 for 6mins.....
+
+Patient p3 exited, Dr.C is free
+
+Patient p2 exited, Dr.B is free
+
+Patient p1 exited, Dr.A is free
+
+Dr.A on-duty with p4 for 5mins.....
+
+Dr.B on-duty with p5 for 9mins.....
+
+Patient p4 exited, Dr.A is free
+
+Dr.A on-duty with p6 for 10mins.....
+
+Patient p5 exited, Dr.B is free
+
+Dr.B on-duty with p7 for 8mins.....
+
+Patient p6 exited, Dr.A is free
+
+Patient p7 exited, Dr.B is free

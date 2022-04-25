@@ -15,12 +15,15 @@ def calculate_bill():
         # To traverse the file with Dictionary elements and locate the ID
         for patient in load(f):
             if patient["id"] == pid:
-                print("Total Bill: ", sum(patient["bills"]))
-                # or print(patient["bills"][0])
+                if len(patient["bills"]) == 0:
+                    print("Patient still in treatment.")
+                else:
+                    # or print("Total Bill: ", sum(patient["bills"]))
+                    print(patient["bills"][0])
                 break
 
 
-def truncate_file(file_name):
+def erase_file(file_name):
     with open(file_name, "r+") as f:  # opens file in read and write mode
         f.truncate()
 
