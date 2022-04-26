@@ -1,6 +1,4 @@
-import threading
-import time
-import threading
+import time, threading
 
 problems_dict = {
     "Headache": 300,
@@ -11,35 +9,28 @@ problems_dict = {
     "Eye-checkup": 450,
 }
 
-# Must return None if no doctors are available after one iteration
-def available_doc(doctors):  # TODO: make it Asynchronous
-    while True:
-        for doc in doctors:
-            if doc.isfree:
-                doc.isfree = False
-                return doc  # Iterates with 1sec intervals until one Doctor is free
-        threading.Event().wait(1)
-        # time.sleep(1)
 
-
-def assignment(patient, doctors_list):
-    avl_doc = available_doc(doctors_list)
-    # returns None if no docs available?
-
-    # Waits until Doctor is available
-    if avl_doc is not None:
-        with open("results.txt", "a") as f:
-            f.write(
-                "\n{} on-duty with {} for {}mins.....\n".format(
-                    avl_doc.name, patient.name, patient.duration
-                )
+def assignment(patient, avl_doc, waiting_queue):
+    with open("results.txt", "a") as f:
+        f.write("\nPatient {} is on top\n".format(patient.name))
+    with open("results.txt", "a") as f:
+        f.write(
+            "\n{} on-duty with {} for {}mins.....\n".format(
+                avl_doc.name, patient.name, patient.visit_details[-1]["duration"]
             )
-        time.sleep(patient.duration)
-        patient.bills.insert(0, problems_dict[patient.problem])
-        patient.visited_by_doc.insert(0, avl_doc.name)
-        # Update details like - bills, visited_by_doc(DocName)
-        with open("results.txt", "a") as f:
-            f.write(
-                "\nPatient {} exited, {} is free\n".format(patient.name, avl_doc.name)
-            )
-        avl_doc.isfree = True
+        )
+    time.sleep(patient.visit_details[-1]["duration"])  # ----------------------Treatment
+
+    this_visit = patient.visit_details[-1]
+    this_visit["visited_by_doc"] = avl_doc.name
+    this_visit["bill"] = problems_dict[this_visit["problem"]]
+
+    with open("results.txt", "a") as f:
+        f.write("\nPatient {} exited, {} is free\n".format(patient.name, avl_doc.name))
+
+    avl_doc.isfree = True
+    if len(waiting_queue) > 0:
+        thread = threading.Thread(
+            target=assignment, args=(waiting_queue.pop(0), avl_doc, waiting_queue)
+        )
+        thread.start()

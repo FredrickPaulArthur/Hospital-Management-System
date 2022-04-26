@@ -3,6 +3,7 @@ from abc import ABC
 import threading
 from Assignment import assignment
 from Operations import generate_id
+from Operations import available_doc
 
 problems_dict = {
     "Headache": 300,
@@ -20,84 +21,63 @@ class Person(ABC):
         self.age = randint(30, 60)
         self.gender = choice(["Male", "Female"])
 
-    def create_person(option, doctors_list, patients_list):
+    def create_person(option, doctors_list, patients_list, waiting_queue):
         if option == 1:
             doctor = Doctor("Dr." + input("Enter the name: "))
             doctors_list.append(doctor)
-        elif option == 2:  # also assign to a Doctor
-            patient = Patient(
-                input("Enter patient's id: "),
-                input("Enter patient's name: "),
-                patients_list,
-            )
-            # Invalid Patient ID
-            # print(patient is not None)
-            # assert patient is not None, "Invalid Patient Id!"
+        elif option == 2:
+            id = input("Enter patient's id: ")
+            name = input("Enter patient's name: ")
+            if id == "none":
+                # New Patient
+                patient = Patient(name)
+                patients_list.append(patient)
+            elif id != "none":
+                # Check if ID already exists in the patients_list
+                for patient in patients_list:
+                    if patient.id == id:
+                        patient.visit_details.append(
+                            {
+                                "duration": randint(8, 13),
+                                "visited_by_doc": "null",
+                                "problem": choice(list(problems_dict)),
+                                "bill": 0,
+                            }
+                        )
+                        break
+                else:
+                    # Invalid Patient ID
+                    return
 
-            for p in patients_list:  # For already visited Patient
-                if p["id"] == patient.id:
-                    break
+            # If doctor is available, the thread starts. If not, patient is sent to the WaitingQueue
+            avl_doc = available_doc(doctors_list, patient.name)
+            if avl_doc is not None:
+                thread = threading.Thread(
+                    target=assignment, args=(patient, avl_doc, waiting_queue)
+                )
+                thread.start()
             else:
-                patients_list.append(patient.details())
-
-            # Should increment bills and visits
-            thread = threading.Thread(target=assignment, args=(patient, doctors_list))
-            thread.start()
+                waiting_queue.append(patient)
 
 
 class Doctor(Person):
     def __init__(self, name):
         super().__init__(name)
-        self.fee = randint(1, 8) * 100
         self.isfree = True
-
-    def __str__(self):
-        print("Doctor Details")
-        return "Name: {}\t Gender: {}\t Age: {}\t Fee: {}\t\n".format(
-            self.name, self.gender, self.age, self.fee
-        )
 
 
 class Patient(Person):
-    def __init__(self, id, name, patients_list):
-        # First time visit
-        if id == "none":
-            super().__init__(name)
-            self.id = generate_id(self.name, self.age)
-            self.problems_list = []
-            self.time_per_visits = []  # Durations
-            self.bills = []
-            self.visited_by_doc = []
-            self.duration = randint(5, 10)
-            self.problem = choice(list(problems_dict))
-            self.problems_list.insert(0, self.problem)
-            self.time_per_visits.insert(0, self.duration)
-
-        else:
-            self.id = id
-            for patient in patients_list:
-                # To select the already existing patient and instantiate it append to it
-                if patient.id == id:
-                    self.age = patient.age
-                    self.name = patient.name
-                    self.gender = patient.gender
-                    self.duration = randint(5, 10)  # patient.duration
-                    self.time_per_visits = patient.time_per_visits
-                    self.bills = patient.bills
-                    self.visited_by_doc = patient.visited_by_doc
-                    self.problem = choice(list(problems_dict))  # Current problem
-                    patient.duration = randint(8, 13)  # Current duration
-                    patient.time_per_visits.insert(0, patient.duration)
-                    patient.problems_list.insert(0, self.problem)
-                    break
-            else:
-                print("Invalid Patient ID")
-                return None
-
-    def __str__(self):
-        print("Patient Details")
-        return "ID: {}\t Name: {}\t Gender: {}\t Age: {}\t\n".format(
-            self.id, self.name, self.gender, self.age
+    def __init__(self, name):
+        super().__init__(name)
+        self.id = generate_id(self.name, self.age)
+        self.visit_details = []
+        self.visit_details.append(
+            {
+                "duration": randint(8, 13),
+                "visited_by_doc": "null",
+                "problem": choice(list(problems_dict)),
+                "bill": 0,
+            }
         )
 
     def details(self):
@@ -106,9 +86,5 @@ class Patient(Person):
             "id": self.id,
             "age": self.age,
             "gender": self.gender,
-            "duration": self.duration,
-            "time_per_visits": self.time_per_visits,
-            "problems_list": self.problems_list,
-            "bills": self.bills,
-            "visited_by_doc": self.visited_by_doc,
+            "visit_details": self.visit_details,
         }
