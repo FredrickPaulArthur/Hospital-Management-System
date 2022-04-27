@@ -1,9 +1,8 @@
 from random import randint, choice  # choice for gender
 from abc import ABC
+from Assignment import treatment
 import threading
-from Assignment import assignment
-from Operations import generate_id
-from Operations import available_doc
+from Operations import generate_id, check_waiting_queue  # , available_doc
 
 problems_dict = {
     "Headache": 300,
@@ -21,49 +20,28 @@ class Person(ABC):
         self.age = randint(30, 60)
         self.gender = choice(["Male", "Female"])
 
-    def create_person(option, doctors_list, patients_list, waiting_queue):
-        if option == 1:
-            doctor = Doctor("Dr." + input("Enter the name: "))
-            doctors_list.append(doctor)
-        elif option == 2:
-            id = input("Enter patient's id: ")
-            name = input("Enter patient's name: ")
-            if id == "none":
-                # New Patient
-                patient = Patient(name)
-                patients_list.append(patient)
-            elif id != "none":
-                # Check if ID already exists in the patients_list
-                for patient in patients_list:
-                    if patient.id == id:
-                        patient.visit_details.append(
-                            {
-                                "duration": randint(8, 13),
-                                "visited_by_doc": "null",
-                                "problem": choice(list(problems_dict)),
-                                "bill": 0,
-                            }
-                        )
-                        break
-                else:
-                    # Invalid Patient ID
-                    return
-
-            # If doctor is available, the thread starts. If not, patient is sent to the WaitingQueue
-            avl_doc = available_doc(doctors_list, patient.name)
-            if avl_doc is not None:
-                thread = threading.Thread(
-                    target=assignment, args=(patient, avl_doc, waiting_queue)
-                )
-                thread.start()
-            else:
-                waiting_queue.append(patient)
-
 
 class Doctor(Person):
     def __init__(self, name):
         super().__init__(name)
         self.isfree = True
+
+    # For Encapsulation
+    # Must return None if no doctors are available after one iteration
+    def available_doc(doctors):  # TODO: make it Asynchronous
+        for doc in doctors:
+            if doc.isfree:
+                doc.isfree = False
+                return doc
+        # time.sleep(1)
+
+    def create_doctor(doctors_list, waiting_queue):
+        doctor = Doctor("Dr." + input("Enter the name: "))
+        doctors_list.append(doctor)
+        # The Doctor who has just arrived will check for Patients in the Queue
+
+        if len(waiting_queue) > 0:
+            check_waiting_queue(waiting_queue.pop(0), doctor, waiting_queue)
 
 
 class Patient(Person):
@@ -79,6 +57,42 @@ class Patient(Person):
                 "bill": 0,
             }
         )
+
+    # For Encapsulation
+    def create_patient(doctors_list, patients_list, waiting_queue):
+        id = input("Enter patient's id: ")
+        name = input("Enter patient's name: ")
+        if id == "none":
+            # New Patient
+            patient = Patient(name)
+            patients_list.append(patient)
+        elif id != "none":
+            # Check if ID already exists in the patients_list
+            for patient in patients_list:
+                if patient.id == id:
+                    patient.visit_details.append(
+                        {
+                            "duration": randint(8, 13),
+                            "visited_by_doc": "null",
+                            "problem": choice(list(problems_dict)),
+                            "bill": 0,
+                        }
+                    )
+                    break
+            else:
+                # Invalid Patient ID
+                print("\nEnter a valid Patient Id\n")
+                return
+        # If doctor is available, the thread starts. If not, patient is sent to the WaitingQueue
+        avl_doc = Doctor.available_doc(doctors_list)
+        # check_waiting_queue(patient, avl_doc, waiting_queue)
+        if avl_doc is not None:
+            thread = threading.Thread(
+                target=treatment, args=(patient, avl_doc, waiting_queue)
+            )
+            thread.start()
+        else:
+            waiting_queue.append(patient)
 
     def details(self):
         return {

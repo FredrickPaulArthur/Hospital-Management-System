@@ -10,15 +10,16 @@ problems_dict = {
 }
 
 
-def assignment(patient, avl_doc, waiting_queue):
-    with open("results.txt", "a") as f:
-        f.write("\nPatient {} is on top\n".format(patient.name))
-    with open("results.txt", "a") as f:
-        f.write(
-            "\n{} on-duty with {} for {}mins.....\n".format(
-                avl_doc.name, patient.name, patient.visit_details[-1]["duration"]
-            )
+def treatment(patient, avl_doc, waiting_queue):
+    f = open("results.txt", "a")
+    f.write("\nPatient {} is ready\n".format(patient.name))
+    f.write(
+        "\n{} on-duty with {} for {}mins.....\n".format(
+            avl_doc.name, patient.name, patient.visit_details[-1]["duration"]
         )
+    )
+    f.close()
+    avl_doc.isfree = False
     time.sleep(patient.visit_details[-1]["duration"])  # ----------------------Treatment
 
     this_visit = patient.visit_details[-1]
@@ -31,6 +32,6 @@ def assignment(patient, avl_doc, waiting_queue):
     avl_doc.isfree = True
     if len(waiting_queue) > 0:
         thread = threading.Thread(
-            target=assignment, args=(waiting_queue.pop(0), avl_doc, waiting_queue)
+            target=treatment, args=(waiting_queue.pop(0), avl_doc, waiting_queue)
         )
         thread.start()

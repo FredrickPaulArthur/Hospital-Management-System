@@ -1,36 +1,30 @@
 
-Patient p1 is on top
+Patient p1 is ready
 
-Dr.A on-duty with p1 for 13mins.....
+Dr.A on-duty with p1 for 11mins.....
 
-Patient p2 is on top
+Patient p2 is ready
 
 Dr.B on-duty with p2 for 13mins.....
 
 Patient p1 exited, Dr.A is free
 
-Patient p3 is on top
+Patient p3 is ready
 
-Dr.A on-duty with p3 for 10mins.....
+Dr.A on-duty with p3 for 9mins.....
 
 Patient p2 exited, Dr.B is free
 
-Patient p4 is on top
+Patient p4 is ready
 
-Dr.B on-duty with p4 for 10mins.....
-
-Patient p1 is on top
-
-Dr.A on-duty with p1 for 13mins.....
+Dr.B on-duty with p4 for 11mins.....
 
 Patient p3 exited, Dr.A is free
 
-Patient p5 is on top
+Patient p5 is ready
 
 Dr.A on-duty with p5 for 11mins.....
 
 Patient p4 exited, Dr.B is free
-
-Patient p1 exited, Dr.A is free
 
 Patient p5 exited, Dr.A is free

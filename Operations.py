@@ -1,15 +1,15 @@
 from json import load
+import threading
+from Assignment import treatment
 
-# Must return None if no doctors are available after one iteration
-def available_doc(doctors, name):  # TODO: make it Asynchronous
-    while True:
-        for doc in doctors:
-            if doc.isfree:
-                doc.isfree = False
-                return doc  # Iterates with 1sec intervals until one Doctor is free
-        break
-        return None
-        # time.sleep(1)
+
+def check_waiting_queue(patient, doctor, waiting_queue):
+    if len(waiting_queue) > 0:
+        thread = threading.Thread(
+            target=treatment,
+            args=(patient, doctor, waiting_queue),
+        )
+        thread.start()
 
 
 def update_history(patients_list):
