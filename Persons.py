@@ -60,9 +60,9 @@ class Patient(Person):
 
     def create_patient(doctors_list, patients_list, waiting_queue):
         id = input("Enter patient's id: ")
-        name = input("Enter patient's name: ")
         if id == "none":
             # New Patient
+            name = input("Enter patient's name: ")
             patient = Patient(name)
             patients_list.append(patient)
         elif id != "none":

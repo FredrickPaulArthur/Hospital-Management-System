@@ -1,1 +1,78 @@
-[{"name": "p1", "id": "p142", "age": 42, "gender": "Female", "visit_details": [{"duration": 11, "visited_by_doc": "Dr.A", "problem": "Fracture", "bill": 350}]}, {"name": "p2", "id": "p253", "age": 53, "gender": "Female", "visit_details": [{"duration": 13, "visited_by_doc": "Dr.B", "problem": "Eye-checkup", "bill": 450}]}, {"name": "p3", "id": "p351", "age": 51, "gender": "Female", "visit_details": [{"duration": 9, "visited_by_doc": "Dr.A", "problem": "Eye-checkup", "bill": 450}]}, {"name": "p4", "id": "p447", "age": 47, "gender": "Female", "visit_details": [{"duration": 11, "visited_by_doc": "Dr.B", "problem": "Fracture", "bill": 350}]}, {"name": "p5", "id": "p536", "age": 36, "gender": "Male", "visit_details": [{"duration": 11, "visited_by_doc": "Dr.A", "problem": "Dialysis", "bill": 400}]}]
+[
+  {
+    "name": "p1",
+    "id": "p147",
+    "age": 47,
+    "gender": "Male",
+    "visit_details": [
+      {
+        "duration": 13,
+        "visited_by_doc": "Dr.A",
+        "problem": "Fever",
+        "bill": 200
+      },
+      {
+        "duration": 13,
+        "visited_by_doc": "Dr.A",
+        "problem": "Eye-checkup",
+        "bill": 450
+      }
+    ]
+  },
+  {
+    "name": "p2",
+    "id": "p253",
+    "age": 53,
+    "gender": "Male",
+    "visit_details": [
+      {
+        "duration": 15,
+        "visited_by_doc": "Dr.B",
+        "problem": "Fracture",
+        "bill": 350
+      }
+    ]
+  },
+  {
+    "name": "p3",
+    "id": "p330",
+    "age": 30,
+    "gender": "Female",
+    "visit_details": [
+      {
+        "duration": 15,
+        "visited_by_doc": "Dr.A",
+        "problem": "Bloodwork",
+        "bill": 100
+      }
+    ]
+  },
+  {
+    "name": "p4",
+    "id": "p447",
+    "age": 47,
+    "gender": "Female",
+    "visit_details": [
+      {
+        "duration": 13,
+        "visited_by_doc": "Dr.B",
+        "problem": "Headache",
+        "bill": 300
+      }
+    ]
+  },
+  {
+    "name": "p5",
+    "id": "p550",
+    "age": 50,
+    "gender": "Male",
+    "visit_details": [
+      {
+        "duration": 15,
+        "visited_by_doc": "Dr.A",
+        "problem": "Eye-checkup",
+        "bill": 450
+      }
+    ]
+  }
+]

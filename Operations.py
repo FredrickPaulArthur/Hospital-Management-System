@@ -1,13 +1,19 @@
 from json import load
 import threading
-from Assignment import treatment
 
 
-def check_waiting_queue(patient, doctor, waiting_queue):
+def available_doc(doctors_list):
+    for doc in doctors_list:
+        if doc.isfree:
+            doc.isfree = False
+            return doc
+
+
+def check_waiting_queue(doctor, waiting_queue, treatment, patients_list):
     if len(waiting_queue) > 0:
         thread = threading.Thread(
             target=treatment,
-            args=(patient, doctor, waiting_queue),
+            args=(waiting_queue.pop(0), doctor, patients_list, waiting_queue),
         )
         thread.start()
 
@@ -33,8 +39,13 @@ def calculate_bill():
                     print("Patient still in treatment.")
                 else:
                     # or print("Total Bill: ", sum(patient["bills"]))
-                    print(this_visit["bill"])
+                    print(
+                        "The bill for {} is: ".format(patient_dict["name"]),
+                        this_visit["bill"],
+                    )
                 break
+        else:
+            print("\nPlease Enter the correct ID")
 
 
 def erase_file(file_name):

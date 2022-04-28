@@ -1,5 +1,5 @@
-from PersonClass import Doctor, Patient
-from Operations import update_history, calculate_bill, erase_file
+from Persons import Doctor, Patient
+from Operations import calculate_bill, erase_file
 import threading
 
 erase_file("Results.txt")
@@ -10,7 +10,7 @@ patients_list = []  # Class objects list
 waiting_queue = []
 
 while True:
-    print("1> Enter Doctor")  # Doctor enters and looks for patient
+    print("\n1> Enter Doctor")  # Doctor enters and looks for patient
     print("2> Enter Patient")  # Patient enters and looks for available doctor
     print("3> Get bill of a Patient")
     print("4> Exit program")
@@ -22,10 +22,10 @@ while True:
         print("\nPlease enter a correct option\n")
         continue
 
-    update_history(patients_list)
+    # update_history(patients_list)
 
     if option == 1:
-        Doctor.create_doctor(doctors_list, waiting_queue)
+        Doctor.create_doctor(doctors_list, patients_list, waiting_queue)
 
     elif option == 2:
         Patient.create_patient(doctors_list, patients_list, waiting_queue)
@@ -37,12 +37,9 @@ while True:
         # To join() if any Threads are running - skipping the main Thread
         # threading.enumerate returns a list of Currently running threads including the main threads
         if len(threading.enumerate()) > 1:
-            print("Exiting, waiting for the final patients.....")
+            print("\nExiting, waiting for the final patients.....")
             while len(threading.enumerate()) > 1:
                 threading.enumerate()[1].join()
         else:
-            print("Exited")
+            print("\nExited")
         break
-    print()
-
-update_history(patients_list)
