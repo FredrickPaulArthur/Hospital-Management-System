@@ -71,10 +71,10 @@ class Patient(Person):
                 if patient.id == id:
                     if patient.isattending:
                         print("\nPatient is still attending\n")
-                        break
+                        return
                     elif patient.inqueue:
                         print("\nPatient already in the Waiting Queue\n")
-                        break
+                        return
                     else:
                         patient.visit_details.append(
                             {
