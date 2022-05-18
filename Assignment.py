@@ -1,31 +1,54 @@
-import time
+import time, threading
+from Operations import available_doc, update_history, check_waiting_queue
 
-# Must return None if no doctors are available after one iteration
-def available_doc(doctors):  # TODO: make it Asynchronous
-    while True:
-        for doc in doctors:
-            if doc.isfree:
-                doc.isfree = False
-                return doc  # Iterates with 1sec intervals until one Doctor is free
-        time.sleep(1)
+problems_dict = {
+    "Headache": 300,
+    "Fever": 200,
+    "Dialysis": 400,
+    "Bloodwork": 100,
+    "Fracture": 350,
+    "Eye-checkup": 450,
+}
 
-
-def assignment(patient, doctors_list):
-    avl_doc = available_doc(doctors_list)  # returns None if no docs available?
-
-    # Waits until Doctor is available
+# Comes from create_patient
+def assign_doctor(patient, doctors_list, waiting_queue, patients_list):
+    avl_doc = available_doc(doctors_list)
     if avl_doc is not None:
+        thread = threading.Thread(
+            target=treatment, args=(patient, avl_doc, patients_list, waiting_queue)
+        )
+        thread.start()
+
+    else:
         with open("results.txt", "a") as f:
-            f.write(
-                "\n{} on-duty with {} for {}mins.....\n".format(
-                    avl_doc.name, patient.name, patient.duration
-                )
-            )
-        time.sleep(patient.duration)
-        # patient.bills.insert(0, )
-        # Update details like - bills, visited_by_doc(DocName)
-        with open("results.txt", "a") as f:
-            f.write(
-                "\nPatient {} exited, {} is free\n".format(patient.name, avl_doc.name)
-            )
-        avl_doc.isfree = True
+            f.write("\nPatient {} added to waiting_queue\n".format(patient.name))
+        waiting_queue.append(patient)
+        patient.inqueue = True
+
+
+def treatment(patient, avl_doc, patients_list, waiting_queue):
+    avl_doc.isfree = False
+    patient.isattending = True
+    f = open("results.txt", "a")
+    f.write("\nPatient {} is attending".format(patient.name))
+    f.write(
+        "\n{} on-duty with {} for {}mins.....\n".format(
+            avl_doc.name, patient.name, patient.visit_details[-1]["duration"]
+        )
+    )
+    f.close()
+
+    time.sleep(patient.visit_details[-1]["duration"])  # ----------------------Treatment
+
+    this_visit = patient.visit_details[-1]
+    this_visit["visited_by_doc"] = avl_doc.name
+    this_visit["bill"] = problems_dict[this_visit["problem"]]
+    with open("results.txt", "a") as f:
+        f.write("\nPatient {} exited, {} is free\n".format(patient.name, avl_doc.name))
+
+    avl_doc.isfree = True
+    patient.isattending = False
+    patient.inqueue = False
+    update_history(patients_list)
+
+    check_waiting_queue(avl_doc, waiting_queue, treatment, patients_list)

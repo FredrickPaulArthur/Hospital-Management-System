@@ -1,38 +1,78 @@
 [
   {
-    "name": "P",
-    "id": "P53",
-    "age": 53,
-    "gender": "Female",
-    "problem": "Headache",
-    "time_per_visits": [
-      10
-    ],
-    "bills": [],
-    "visited_by_doc": []
-  },
-  {
-    "name": "Q",
-    "id": "ijdf",
-    "age": 58,
-    "gender": "Male",
-    "problem": "Bloodwork",
-    "time_per_visits": [
-      8
-    ],
-    "bills": [],
-    "visited_by_doc": []
-  },
-  {
-    "name": "R",
-    "id": "efef",
+    "name": "p1",
+    "id": "p160",
     "age": 60,
     "gender": "Male",
-    "problem": "Fever",
-    "time_per_visits": [
-      5
-    ],
-    "bills": [],
-    "visited_by_doc": []
+    "visit_details": [
+      {
+        "duration": 15,
+        "visited_by_doc": "Dr.A",
+        "problem": "Dialysis",
+        "bill": 400
+      }
+    ]
+  },
+  {
+    "name": "p2",
+    "id": "p252",
+    "age": 52,
+    "gender": "Male",
+    "visit_details": [
+      {
+        "duration": 13,
+        "visited_by_doc": "Dr.B",
+        "problem": "Headache",
+        "bill": 300
+      }
+    ]
+  },
+  {
+    "name": "p3",
+    "id": "p341",
+    "age": 41,
+    "gender": "Female",
+    "visit_details": [
+      {
+        "duration": 11,
+        "visited_by_doc": "Dr.C",
+        "problem": "Bloodwork",
+        "bill": 100
+      },
+      {
+        "duration": 12,
+        "visited_by_doc": "Dr.A",
+        "problem": "Dialysis",
+        "bill": 400
+      }
+    ]
+  },
+  {
+    "name": "p4",
+    "id": "p458",
+    "age": 58,
+    "gender": "Female",
+    "visit_details": [
+      {
+        "duration": 11,
+        "visited_by_doc": "Dr.A",
+        "problem": "Dialysis",
+        "bill": 400
+      }
+    ]
+  },
+  {
+    "name": "p5",
+    "id": "p542",
+    "age": 42,
+    "gender": "Male",
+    "visit_details": [
+      {
+        "duration": 14,
+        "visited_by_doc": "Dr.B",
+        "problem": "Fracture",
+        "bill": 350
+      }
+    ]
   }
 ]

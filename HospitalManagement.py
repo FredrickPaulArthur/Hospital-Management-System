@@ -1,36 +1,45 @@
-from PersonClass import create_person
-from Operations import update_history, calculate_bill, truncate_file
+from Persons import Doctor, Patient
+from Operations import calculate_bill, erase_file
+import threading
 
-truncate_file("Results.txt")
-truncate_file("History.json")
+erase_file("Results.txt")
+erase_file("History.json")
+
 doctors_list = []
-patients_list = []
+patients_list = []  # Class objects list
+waiting_queue = []
 
 while True:
-    print("1> Create Doctor")
-    print("2> Enter Patient")
+    print("\n1> Enter Doctor")  # Doctor enters and looks for patient
+    print("2> Enter Patient")  # Patient enters and looks for available doctor
     print("3> Get bill of a Patient")
-    print("4> Exit")
-    option = int(input())
+    print("4> Exit program")
+    try:
+        option = int(input("Option: "))
+        if option not in range(1, 5):
+            raise ValueError
+    except ValueError:
+        print("\nPlease enter a correct option\n")
+        continue
 
-    # Adding People
-    if option == 1 or option == 2:
-        create_person(option, doctors_list, patients_list)
+    # update_history(patients_list)
 
-    # Bill Calculation
+    if option == 1:
+        Doctor.create_doctor(doctors_list, patients_list, waiting_queue)
+
+    elif option == 2:
+        Patient.create_patient(doctors_list, patients_list, waiting_queue)
+
     elif option == 3:
-        update_history(patients_list)
         calculate_bill()
 
-    # Exiting
-    if option == 4:  # To exit and to update history for the day
-        print("Exiting, waiting to close.....")
-        update_history(patients_list)
+    elif option == 4:  # To exit and to update history for the day
+        # To join() if any Threads are running - skipping the main Thread
+        # threading.enumerate returns a list of Currently running threads including the main threads
+        if len(threading.enumerate()) > 1:
+            print("\nExiting, waiting for the final patients.....")
+            while len(threading.enumerate()) > 1:
+                threading.enumerate()[1].join()
+        else:
+            print("\nExited")
         break
-    print()
-
-
-# Able to use as a list - YES
-# with open("History.json", "r") as f:
-#     a = json.load(f)
-# print(type(a))
