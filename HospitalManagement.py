@@ -1,5 +1,5 @@
-from Persons import Doctor, Patient
-from Operations import calculate_bill, erase_file
+from dependencies.Persons import Doctor, Patient
+from dependencies.Operations import calculate_bill, erase_file
 import threading
 
 erase_file("Results.txt")
@@ -36,8 +36,9 @@ while True:
     elif option == 4:  # To exit and to update history for the day
         # To join() if any Threads are running - skipping the main Thread
         # threading.enumerate returns a list of Currently running threads including the main threads
-        if len(threading.enumerate()) > 1:
-            print("\nExiting, waiting for the final patients.....")
+        no_of_patients = len(threading.enumerate())
+        if no_of_patients > 1:
+            print(f"\nExiting, waiting for the last {no_of_patients} patients.....")
             while len(threading.enumerate()) > 1:
                 threading.enumerate()[1].join()
         else:

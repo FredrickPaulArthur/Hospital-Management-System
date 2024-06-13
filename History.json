@@ -1,78 +1,128 @@
 [
-  {
-    "name": "p1",
-    "id": "p160",
-    "age": 60,
-    "gender": "Male",
-    "visit_details": [
-      {
-        "duration": 15,
-        "visited_by_doc": "Dr.A",
-        "problem": "Dialysis",
-        "bill": 400
-      }
-    ]
-  },
-  {
-    "name": "p2",
-    "id": "p252",
-    "age": 52,
-    "gender": "Male",
-    "visit_details": [
-      {
-        "duration": 13,
-        "visited_by_doc": "Dr.B",
-        "problem": "Headache",
-        "bill": 300
-      }
-    ]
-  },
-  {
-    "name": "p3",
-    "id": "p341",
-    "age": 41,
-    "gender": "Female",
-    "visit_details": [
-      {
-        "duration": 11,
-        "visited_by_doc": "Dr.C",
-        "problem": "Bloodwork",
-        "bill": 100
-      },
-      {
-        "duration": 12,
-        "visited_by_doc": "Dr.A",
-        "problem": "Dialysis",
-        "bill": 400
-      }
-    ]
-  },
-  {
-    "name": "p4",
-    "id": "p458",
-    "age": 58,
-    "gender": "Female",
-    "visit_details": [
-      {
-        "duration": 11,
-        "visited_by_doc": "Dr.A",
-        "problem": "Dialysis",
-        "bill": 400
-      }
-    ]
-  },
-  {
-    "name": "p5",
-    "id": "p542",
-    "age": 42,
-    "gender": "Male",
-    "visit_details": [
-      {
-        "duration": 14,
-        "visited_by_doc": "Dr.B",
-        "problem": "Fracture",
-        "bill": 350
-      }
-    ]
-  }
+    {
+        "name": "p1",
+        "id": "p160",
+        "age": 60,
+        "gender": "Male",
+        "visit_details": [
+            {
+                "duration": 13,
+                "visited_by_doc": "Dr.D1",
+                "problem": "Fever",
+                "bill": 200
+            }
+        ]
+    },
+    {
+        "name": "p2",
+        "id": "p247",
+        "age": 47,
+        "gender": "Female",
+        "visit_details": [
+            {
+                "duration": 10,
+                "visited_by_doc": "Dr.D2",
+                "problem": "Bloodwork",
+                "bill": 100
+            }
+        ]
+    },
+    {
+        "name": "p3",
+        "id": "p351",
+        "age": 51,
+        "gender": "Female",
+        "visit_details": [
+            {
+                "duration": 14,
+                "visited_by_doc": "Dr.D3",
+                "problem": "Fracture",
+                "bill": 350
+            }
+        ]
+    },
+    {
+        "name": "p4",
+        "id": "p445",
+        "age": 45,
+        "gender": "Female",
+        "visit_details": [
+            {
+                "duration": 14,
+                "visited_by_doc": "Dr.D2",
+                "problem": "Eye-checkup",
+                "bill": 450
+            }
+        ]
+    },
+    {
+        "name": "p5",
+        "id": "p558",
+        "age": 58,
+        "gender": "Male",
+        "visit_details": [
+            {
+                "duration": 10,
+                "visited_by_doc": "Dr.D1",
+                "problem": "Dialysis",
+                "bill": 400
+            }
+        ]
+    },
+    {
+        "name": "p6",
+        "id": "p655",
+        "age": 55,
+        "gender": "Female",
+        "visit_details": [
+            {
+                "duration": 15,
+                "visited_by_doc": "Dr.D3",
+                "problem": "Bloodwork",
+                "bill": 100
+            }
+        ]
+    },
+    {
+        "name": "p7",
+        "id": "p750",
+        "age": 50,
+        "gender": "Female",
+        "visit_details": [
+            {
+                "duration": 13,
+                "visited_by_doc": "Dr.D1",
+                "problem": "Eye-checkup",
+                "bill": 450
+            }
+        ]
+    },
+    {
+        "name": "p8",
+        "id": "p855",
+        "age": 55,
+        "gender": "Female",
+        "visit_details": [
+            {
+                "duration": 11,
+                "visited_by_doc": "Dr.D2",
+                "problem": "Fever",
+                "bill": 200
+            }
+        ]
+    },
+    {
+        "name": "p9",
+        "id": "p937",
+        "age": 37,
+        "gender": "Male",
+        "visit_details": [
+            {
+                "duration": 11,
+                "visited_by_doc": "Dr.D3",
+                "problem": "Fever",
+                "bill": 200
+            }
+        ]
+    }
 ]

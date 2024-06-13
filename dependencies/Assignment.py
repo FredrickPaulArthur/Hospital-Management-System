@@ -1,5 +1,5 @@
 import time, threading
-from Operations import available_doc, update_history, check_waiting_queue
+from dependencies.Operations import available_doc, update_history, check_waiting_queue
 
 problems_dict = {
     "Headache": 300,

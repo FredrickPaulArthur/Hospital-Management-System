@@ -1,7 +1,7 @@
 from random import randint, choice  # choice for gender
 from abc import ABC
-from Assignment import assign_doctor, treatment
-from Operations import generate_id, check_waiting_queue
+from dependencies.Assignment import assign_doctor, treatment
+from dependencies.Operations import generate_id, check_waiting_queue
 
 
 problems_dict = {

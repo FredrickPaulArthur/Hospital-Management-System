@@ -1,34 +1,57 @@
 
 Patient p1 is attending
-Dr.A on-duty with p1 for 15mins.....
+Dr.D1 on-duty with p1 for 13mins.....
 
 Patient p2 is attending
-Dr.B on-duty with p2 for 13mins.....
+Dr.D2 on-duty with p2 for 10mins.....
 
 Patient p3 is attending
-Dr.C on-duty with p3 for 11mins.....
+Dr.D3 on-duty with p3 for 14mins.....
 
 Patient p4 added to waiting_queue
 
 Patient p5 added to waiting_queue
 
-Patient p1 exited, Dr.A is free
+Patient p6 added to waiting_queue
+
+Patient p7 added to waiting_queue
+
+Patient p8 added to waiting_queue
+
+Patient p2 exited, Dr.D2 is free
 
 Patient p4 is attending
-Dr.A on-duty with p4 for 11mins.....
+Dr.D2 on-duty with p4 for 14mins.....
 
-Patient p2 exited, Dr.B is free
+Patient p9 added to waiting_queue
+
+Patient p1 exited, Dr.D1 is free
 
 Patient p5 is attending
-Dr.B on-duty with p5 for 14mins.....
+Dr.D1 on-duty with p5 for 10mins.....
 
-Patient p3 exited, Dr.C is free
+Patient p3 exited, Dr.D3 is free
 
-Patient p4 exited, Dr.A is free
+Patient p6 is attending
+Dr.D3 on-duty with p6 for 15mins.....
 
-Patient p5 exited, Dr.B is free
+Patient p5 exited, Dr.D1 is free
 
-Patient p3 is attending
-Dr.A on-duty with p3 for 12mins.....
+Patient p7 is attending
+Dr.D1 on-duty with p7 for 13mins.....
 
-Patient p3 exited, Dr.A is free
+Patient p4 exited, Dr.D2 is free
+
+Patient p8 is attending
+Dr.D2 on-duty with p8 for 11mins.....
+
+Patient p6 exited, Dr.D3 is free
+
+Patient p9 is attending
+Dr.D3 on-duty with p9 for 11mins.....
+
+Patient p7 exited, Dr.D1 is free
+
+Patient p8 exited, Dr.D2 is free
+
+Patient p9 exited, Dr.D3 is free
